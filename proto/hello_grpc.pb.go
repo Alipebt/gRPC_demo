@@ -4,9 +4,10 @@
 // - protoc             v3.21.12
 // source: hello.proto
 
-package api
+package service
 
 import (
+	"fmt"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"

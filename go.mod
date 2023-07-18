@@ -1,4 +1,4 @@
-module grpc_demo
+module main
 
 go 1.20
 

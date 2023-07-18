@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
-	pb "grpc_demo/proto"
+	"fmt"
 	"net"
+
+	pb "main/proto"
 
 	"google.golang.org/grpc"
 )
@@ -13,17 +15,20 @@ type server struct {
 }
 
 func (s *server) SayHello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloResponse, error) {
-	return &pb.HelloResponse{RespanseMsg: "hello" + req.RequestName}, nil
+	fmt.Println("service: SayHello")
+	return &pb.HelloResponse{ResponseMsg: "hello " + req.RequestName}, nil
 }
 
 func main() {
-
 	listen, _ := net.Listen("tcp", ":9090")
+
 	grpcServer := grpc.NewServer()
+
 	pb.RegisterSayHelloServer(grpcServer, &server{})
+
 	err := grpcServer.Serve(listen)
 	if err != nil {
+		fmt.Printf("failed to serve: %v", err)
 		return
 	}
-	return
 }
