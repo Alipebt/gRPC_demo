@@ -4,7 +4,7 @@
 // - protoc             v3.21.12
 // source: hello.proto
 
-package server
+package api
 
 import (
 	context "context"
