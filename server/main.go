@@ -33,17 +33,8 @@ func (e *Echo) BidirectionalStreamingEcho(stream pb.Echo_BidirectionalStreamingE
 	go func() {
 		defer waitGroup.Done()
 
-		for /*v := range msgCh*/ {
-			req, err := stream.Recv()
-			if err == io.EOF {
-				break
-			}
-			if err != nil {
-				log.Fatalf("recv error:%v", err)
-			}
-			fmt.Printf("Recved :%v \n", req.GetMessage())
-
-			err = stream.Send(&pb.EchoResponse{Message: req.GetMessage()})
+		for v := range msgCh {
+			err := stream.Send(&pb.EchoResponse{Message: v})
 			if err != nil {
 				fmt.Println("Send error:", err)
 				continue
@@ -63,7 +54,7 @@ func (e *Echo) BidirectionalStreamingEcho(stream pb.Echo_BidirectionalStreamingE
 				log.Fatalf("recv error:%v", err)
 			}
 			fmt.Printf("Recved :%v \n", req.GetMessage())
-			//msgCh <- req.GetMessage()
+			msgCh <- req.GetMessage()
 		}
 		close(msgCh)
 	}()

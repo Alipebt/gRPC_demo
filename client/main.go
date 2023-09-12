@@ -151,9 +151,9 @@ func main() {
 	client := pb.NewEchoClient(conn)
 
 	bidirectionalStream(client)
-	// clientStream(client)
-	// serverStream(client)
-	//unary(client)
+	clientStream(client)
+	serverStream(client)
+	unary(client)
 
 	//select {}
 	time.Sleep(2 * time.Second)
